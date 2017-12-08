@@ -33,6 +33,9 @@ typedef NSUInteger BGOperationMode;
 - (void) onAuthorizationChanged:(NSInteger)authStatus;
 - (void) onLocationChanged:(NSMutableDictionary*)location;
 - (void) onStationaryChanged:(NSMutableDictionary*)location;
+
+- (void) iOSAlwaysLocationChage:(CLLocation*)location;
+
 - (void) onError:(NSError*)error;
 
 @end

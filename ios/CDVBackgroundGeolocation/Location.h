@@ -1,62 +1,46 @@
 //
-//  LocationManager.h
+//  Location.h
+//  CDVBackgroundGeolocation
 //
-//  Created by Marian Hello on 04/06/16.
-//  Version 2.0.0
+//  Created by Marian Hello on 10/06/16.
 //
-//  According to apache license
-//
-//  This is class is using code from christocracy cordova-plugin-background-geolocation plugin
-//  https://github.com/christocracy/cordova-plugin-background-geolocation
 
+#ifndef Location_h
+#define Location_h
 
 #import <CoreLocation/CoreLocation.h>
-#import <AudioToolbox/AudioToolbox.h>
-#import "Config.h"
 
-enum BGAuthorizationStatus {
-    NOT_DETERMINED = 0,
-    ALLOWED,
-    DENIED
-};
+@interface Location : NSObject <NSCopying>
 
-enum BGOperationMode {
-    BACKGROUND = 0,
-    FOREGROUND = 1
-};
+@property (nonatomic, retain) NSNumber *id;
+@property (nonatomic, retain) NSDate *time;
+@property (nonatomic, retain) NSNumber *accuracy;
+@property (nonatomic, retain) NSNumber *altitudeAccuracy;
+@property (nonatomic, retain) NSNumber *speed;
+@property (nonatomic, retain) NSNumber *heading;
+@property (nonatomic, retain) NSNumber *altitude;
+@property (nonatomic, retain) NSNumber *latitude;
+@property (nonatomic, retain) NSNumber *longitude;
+@property (nonatomic, retain) NSString *provider;
+@property (nonatomic, retain) NSNumber *serviceProvider;
+@property (nonatomic, retain) NSString *type;
+@property (nonatomic) BOOL isValid;
 
-typedef NSUInteger BGAuthorizationStatus;
-typedef NSUInteger BGOperationMode;
-
-@protocol LocationManagerDelegate <NSObject>
-
-- (void) onAuthorizationChanged:(NSInteger)authStatus;
-- (void) onLocationChanged:(NSMutableDictionary*)location;
-- (void) onStationaryChanged:(NSMutableDictionary*)location;
-
-- (void) iOSAlwaysLocationChage:(CLLocation*)location;
-
-- (void) onError:(NSError*)error;
-
-@end
-
-@interface LocationManager : NSObject
-
-@property (weak, nonatomic) id<LocationManagerDelegate> delegate;
-
-- (BOOL) configure:(Config*)config error:(NSError * __autoreleasing *)outError;
-- (BOOL) start:(NSError * __autoreleasing *)outError;
-- (BOOL) stop:(NSError * __autoreleasing *)outError;
-- (BOOL) finish;
-- (BOOL) isLocationEnabled;
-- (void) showAppSettings;
-- (void) showLocationSettings;
-- (void) switchMode:(BGOperationMode)mode;
-- (NSMutableDictionary*)getStationaryLocation;
-- (NSArray<NSMutableDictionary*>*) getLocations;
-- (NSArray<NSMutableDictionary*>*) getValidLocations;
-- (BOOL) deleteLocation:(NSNumber*)locationId;
-- (BOOL) deleteAllLocations;
-- (void) onAppTerminate;
++ (instancetype) fromCLLocation:(CLLocation*)location;
++ (NSTimeInterval) locationAge:(CLLocation*)location;
++ (NSMutableDictionary*) toDictionary:(CLLocation*)location;;
+- (NSTimeInterval) locationAge;
+- (NSMutableDictionary*) toDictionary;
+- (NSMutableDictionary*) toDictionaryWithId;
+- (CLLocationCoordinate2D) coordinate;
+- (BOOL) hasAccuracy;
+- (BOOL) hasTime;
+- (double) distanceFromLocation:(Location*)location;
+- (BOOL) isBetterLocation:(Location*)location;
+- (BOOL) isBeyond:(Location*)location radius:(NSInteger)radius;
+- (BOOL) postAsJSON:(NSString*)url withHttpHeaders:(NSMutableDictionary*)httpHeaders error:(NSError * __autoreleasing *)outError;
+- (id) copyWithZone: (NSZone *)zone;
 
 @end
+
+#endif /* Location_h */
