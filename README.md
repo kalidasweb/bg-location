@@ -1,10 +1,13 @@
 # cordova-plugin-mauron85-background-geolocation
 
-## Donation
+## Change Log
 
-Please support my work and support continuous development by your donation.
+Create New delegate method “- (void) iOSAlwaysLocationChage:(CLLocation*)location” in LocationManager.h and called in “- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations” at LocationManage.m
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KTUXQQD85F666)
+Create callBackId as a string for saving cordova id from start:(CDVInvokedUrlCommand*)command. And use it that delegate method
+
+That delegate method used in CDVBackgroundGeolocation.m file. In that method, send to result with callBackId (start CallBackId) and location (NSDictionary)to js 
+
 
 
 ## Description
