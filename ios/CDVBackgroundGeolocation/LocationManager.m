@@ -478,6 +478,7 @@ enum {
     }
 
     // Build a resultset for javascript callback.
+    NSLog(@"location.type %@",location.type);
     if ([location.type isEqualToString:@"stationary"]) {
         [self fireStationaryRegionListeners:[location toDictionary]];
     } else if ([location.type isEqualToString:@"current"]) {
@@ -495,8 +496,12 @@ enum {
     DDLogDebug(@"LocationManager#fireStationaryRegionListener");
     // Any javascript stationaryRegion event-listeners?
     if (self.delegate && [self.delegate respondsToSelector:@selector(onStationaryChanged:)]) {
+        NSLog(@"[NSNumber numberWithDouble:_config.stationaryRadius] %@" ,[NSNumber numberWithDouble:_config.stationaryRadius]);
         [data setObject:[NSNumber numberWithDouble:_config.stationaryRadius] forKey:@"radius"];
         [self.delegate onStationaryChanged:data];
+    }
+    else{
+        
     }
 //    [self stopBackgroundTask];
 }
@@ -505,6 +510,8 @@ enum {
 {
     DDLogDebug(@"LocationManager didUpdateLocations (operationMode: %lu)", (unsigned long)operationMode);
 
+    [self.delegate iOSAlwaysLocationChage:locationManager.location];
+    
     locationError = nil;
     BGOperationMode actAsInMode = operationMode;
 

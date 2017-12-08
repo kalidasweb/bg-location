@@ -20,6 +20,8 @@
     NSString* locationModeCallbackId;
     NSMutableArray* stationaryRegionListeners;
     LocationManager* manager;
+    
+    NSString* iosCallBackId;
 }
 
 - (void)pluginInitialize
@@ -85,6 +87,8 @@
         CDVPluginResult* result = nil;
 
         [manager start:&error];
+        iosCallBackId = command.callbackId;
+        
         if (error == nil) {
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         } else {
@@ -331,6 +335,22 @@
         [result setKeepCallbackAsBool:YES];
         [self.commandDelegate sendPluginResult:result callbackId:syncCallbackId];
     }];
+}
+
+
+- (void) iOSAlwaysLocationChage:(CLLocation*)location{
+    
+    NSDictionary * locationsValues = @{
+                                       @"lat" : [NSNumber numberWithFloat:location.coordinate.latitude],
+                                       @"lng" : [NSNumber numberWithFloat:location.coordinate.longitude]
+                                       };
+    
+    NSLog(@"location %@",locationsValues);
+    
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:locationsValues];
+    [result setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:result callbackId:iosCallBackId];
+    
 }
 
 @end
