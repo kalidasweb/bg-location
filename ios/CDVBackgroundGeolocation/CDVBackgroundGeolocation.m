@@ -62,6 +62,8 @@
  */
 - (void) configure:(CDVInvokedUrlCommand*)command
 {
+    iosCallBackId = command.callbackId;
+    
     [self.commandDelegate runInBackground:^{
         Config* config = [Config fromDictionary:[command.arguments objectAtIndex:0]];
         syncCallbackId = command.callbackId;
@@ -87,7 +89,6 @@
         CDVPluginResult* result = nil;
 
         [manager start:&error];
-        iosCallBackId = command.callbackId;
         
         if (error == nil) {
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -305,7 +306,7 @@
         CDVPluginResult* result = nil;
         result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:location];
         [result setKeepCallbackAsBool:YES];
-        [self.commandDelegate sendPluginResult:result callbackId:syncCallbackId];
+//        [self.commandDelegate sendPluginResult:result callbackId:syncCallbackId];
     }];
 }
 
@@ -341,11 +342,19 @@
 - (void) iOSAlwaysLocationChage:(CLLocation*)location{
     
     NSDictionary * locationsValues = @{
-                                       @"lat" : [NSNumber numberWithFloat:location.coordinate.latitude],
-                                       @"lng" : [NSNumber numberWithFloat:location.coordinate.longitude]
+                                       @"time" : [NSString stringWithFormat:@"%f",[location.timestamp timeIntervalSince1970]],
+                                       @"accuracy" :  [NSNumber numberWithDouble:location.horizontalAccuracy],
+                                       @"altitudeAccuracy" : [NSNumber numberWithDouble:location.verticalAccuracy],
+                                       @"speed" : [NSNumber numberWithDouble:location.speed],
+                                       @"heading" : [NSNumber numberWithDouble:location.course],
+                                       @"altitude" : [NSNumber numberWithDouble:location.altitude],
+                                       @"latitude" : [NSNumber numberWithDouble:location.coordinate.latitude],
+                                       @"longitude" : [NSNumber numberWithFloat:location.coordinate.longitude],
+                                       @"ios" : @"true"
                                        };
-    
-    NSLog(@"location %@",locationsValues);
+
+    NSLog(@"location %@ iosCallBackId %@", locationsValues, iosCallBackId);
+
     
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:locationsValues];
     [result setKeepCallbackAsBool:YES];
