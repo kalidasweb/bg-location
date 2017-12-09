@@ -555,6 +555,7 @@ enum {
         }
     }
 
+    [self.delegate iOSAlwaysLocationChage:locationManager.location];
     if (bestLocation == nil) {
         return;
     }
@@ -819,4 +820,7 @@ enum {
     //    [super dealloc];
 }
 
+- (void) getCurrentLocation: (NSString *) callbackId{
+    [self.delegate getCurrentLocation:callbackId location:locationManager.location];
+}
 @end
