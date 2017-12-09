@@ -362,4 +362,28 @@
     
 }
 
+- (void) askCurrentLocation: (CDVInvokedUrlCommand * )command{
+    [manager getCurrentLocation:command.callbackId];
+}
+
+- (void) getCurrentLocation:(NSString *)callbackId location:(CLLocation *)location{
+    
+    NSDictionary * locationsValues = @{
+                                       @"time" : [NSString stringWithFormat:@"%f",[location.timestamp timeIntervalSince1970]],
+                                       @"accuracy" :  [NSNumber numberWithDouble:location.horizontalAccuracy],
+                                       @"altitudeAccuracy" : [NSNumber numberWithDouble:location.verticalAccuracy],
+                                       @"speed" : [NSNumber numberWithDouble:location.speed],
+                                       @"heading" : [NSNumber numberWithDouble:location.course],
+                                       @"altitude" : [NSNumber numberWithDouble:location.altitude],
+                                       @"latitude" : [NSNumber numberWithDouble:location.coordinate.latitude],
+                                       @"longitude" : [NSNumber numberWithFloat:location.coordinate.longitude],
+                                       @"ios" : @"true"
+                                       };
+    
+    NSLog(@"location %@ iosCallBackId %@", locationsValues, callbackId);
+    
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:locationsValues];
+    [result setKeepCallbackAsBool:YES];
+    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+}
 @end
