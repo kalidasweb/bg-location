@@ -34,5 +34,6 @@
 - (void) onPause:(NSNotification *)notification;
 - (void) onResume:(NSNotification *)notification;
 - (void) onAppTerminate;
+- (void) askCurrentLocation: (CDVInvokedUrlCommand * )command;
 
 @end
