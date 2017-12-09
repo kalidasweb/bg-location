@@ -35,6 +35,7 @@ typedef NSUInteger BGOperationMode;
 - (void) onStationaryChanged:(NSMutableDictionary*)location;
 
 - (void) iOSAlwaysLocationChage:(CLLocation*)location;
+- (void) getCurrentLocation: (NSString *)callbackId location: (CLLocation *)location;
 
 - (void) onError:(NSError*)error;
 
@@ -58,5 +59,7 @@ typedef NSUInteger BGOperationMode;
 - (BOOL) deleteLocation:(NSNumber*)locationId;
 - (BOOL) deleteAllLocations;
 - (void) onAppTerminate;
+
+- (void) getCurrentLocation: (NSString *)callbackId;
 
 @end
