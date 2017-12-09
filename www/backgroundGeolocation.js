@@ -1,3 +1,4 @@
+cordova.define("cordova-plugin-mauron85-background-geolocation.backgroundGeolocation", function(require, exports, module) {
 /*
  According to apache license
 
@@ -56,6 +57,14 @@ var backgroundGeolocation = {
             'BackgroundGeolocation',
             'stop', []);
     },
+               
+    askCurrentLocation: function(success, failure) {
+               exec(success || emptyFnc,
+                    failure || emptyFnc,
+                    'BackgroundGeolocation',
+                    'askCurrentLocation', []);
+    },
+
 
     finish: function(success, failure) {
         exec(success || emptyFnc,
@@ -202,3 +211,5 @@ var backgroundGeolocation = {
 window.backgroundGeoLocation = backgroundGeolocation;
 
 module.exports = backgroundGeolocation;
+
+});
