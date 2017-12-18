@@ -1,27 +1,17 @@
 {
   "name": "cordova-plugin-mauron85-background-geolocation",
-  "version": "2.3.3",
-  "description": "Cordova Background Geolocation Plugin",
+  "version": "0.0.1",
+  "description": "W2s Background Geolocation Plugin",
   "cordova": {
     "id": "cordova-plugin-mauron85-background-geolocation",
     "platforms": [
-      "android",
       "ios"
     ]
   },
-  "engines": {
-    "cordovaDependencies": {
-      "0.0.1": {
-        "cordova": ">=3.0.0"
-      },
-      "2.3.3": {
-        "cordova-ios": ">=4.4.0",
-        "cordova-android": ">=6.3.0",
-        "cordova": ">=7.1.0"
-      }
-    }
-  },
-  "author": "",
-  "license": "Apache-2.0",
-  
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios"
+  ],
+  "author": "w2s",
+ "license": "ISC"
 }
